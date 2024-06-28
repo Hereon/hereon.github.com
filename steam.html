@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Game Download Page</title>
+<style>
+  /* 设置背景图片 */
+  body {
+    background-image: url('your-background-image.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  /* 设置下载按钮样式 */
+  .download-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    text-decoration: none;
+    color: white;
+    background-color: #0078D7;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<!-- 下载按钮 -->
+<button class="download-button" id="downloadButton">Download on Steam</button>
+
+<script>
+  document.getElementById('downloadButton').addEventListener('click', function() {
+    // Steam游戏的基础URL
+    var baseUrl = 'https://store.steampowered.com/app/2507950';
+
+    // 获取当前URL的查询参数
+    var queryParams = new URLSearchParams(window.location.search);
+
+    // 检查是否有UTM参数
+    var utmParams = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+    var hasUtmParams = utmParams.some(param => queryParams.has(param));
+
+    // 如果有UTM参数，则将它们附加到Steam页面的URL上
+    if (hasUtmParams) {
+      var utmQuery = utmParams.map(param => queryParams.has(param) ? `${param}=${queryParams.get(param)}` : '')
+                              .filter(part => part !== '')
+                              .join('&');
+      var fullUrl = `${baseUrl}?${utmQuery}`;
+      window.location.href = fullUrl; // 重定向到带有UTM参数的Steam页面
+    } else {
+      window.location.href = baseUrl; // 如果没有UTM参数，直接重定向到基础URL
+    }
+  });
+</script>
+
+</body>
+</html>
