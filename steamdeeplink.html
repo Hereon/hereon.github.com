@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Game Download Page</title>
+<style>
+  /* 设置背景图片 */
+  body {
+    background-image: url('your-background-image.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  /* 设置下载按钮样式 */
+  .download-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    text-decoration: none;
+    color: white;
+    background-color: #0078D7;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<!-- 下载按钮 -->
+<button class="download-button" id="downloadButton">Download on Steam</button>
+
+<script>
+  function openSteamClient() {
+    // 尝试打开Steam客户端
+    window.location.href = 'steam://store/2507950';
+  }
+
+  function redirectToSteamPage() {
+    // 获取当前URL的查询参数
+    var queryParams = new URLSearchParams(window.location.search);
+
+    // 检查是否有UTM参数
+    var utmParams = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+    var utmQuery = utmParams.map(param => queryParams.has(param) ? `${param}=${queryParams.get(param)}` : '')
+                            .filter(part => part !== '')
+                            .join('&');
+
+    // Steam游戏的基础URL
+    var baseUrl = 'https://store.steampowered.com/app/2507950';
+    var fullUrl = utmQuery ? `${baseUrl}?${utmQuery}` : baseUrl;
+
+    // 重定向到Steam页面
+    window.location.href = fullUrl;
+  }
+
+  document.getElementById('downloadButton').addEventListener('click', function() {
+    // 尝试打开Steam客户端
+    openSteamClient();
+
+    // 如果Steam客户端没有在5秒内打开，则重定向到Steam页面
+    setTimeout(function() {
+      redirectToSteamPage();
+    }, 5000);
+  });
+</script>
+
+</body>
+</html>
